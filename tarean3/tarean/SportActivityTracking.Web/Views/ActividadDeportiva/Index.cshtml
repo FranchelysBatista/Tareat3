@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SportActivityTracking.Web.Models.Entidad.ActividadDeportiva>
+
+@{
+    ViewData["Title"] = "Lista de Actividades Deportivas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">Todas las Actividades Deportivas</h2>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Crear Nueva
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Duración (minutos)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var actividad in Model)
+                {
+                    <tr>
+                        <td>@actividad.Id</td>
+                        <td>@actividad.NombreActividad</td>
+                        <td>@actividad.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@actividad.DuracionMinutos</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@actividad.Id">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@actividad.Id">
+                                <i class="bi bi-info-circle"></i> Detalles
+                            </a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@actividad.Id">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

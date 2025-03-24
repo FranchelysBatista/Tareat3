@@ -1,0 +1,20 @@
+﻿@model SportActivityTracking.Web.Models.Entidad.ActividadDeportiva
+
+@{
+    ViewData["Title"] = "Detalles de la Actividad Deportiva";
+}
+
+<h2>Detalles de la Actividad Deportiva</h2>
+
+<div>
+    <h4>@Model.NombreActividad</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Fecha</dt>
+        <dd class="col-sm-10">@Model.Fecha.ToString("dd/MM/yyyy")</dd>
+
+        <dt class="col-sm-2">Duración</dt>
+        <dd class="col-sm-10">@Model.DuracionMinutos minutos</dd>
+    </dl>
+</div>
+
+<a class="btn btn-primary" asp-action="Index">Volver a la Lista</a>
