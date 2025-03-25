@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportActivityTracking.Web", "SportActivityTracking.Web\SportActivityTracking.Web.csproj", "{5F85309F-8A50-4165-946B-D9BAEA6D3733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportActivityTracking.Domain", "SportActivityTracking.Domain\SportActivityTracking.Domain.csproj", "{67C49D3E-9A87-45D8-86F0-BE2FB06C5308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportActivityTracking.Infrastructure", "SportActivityTracking.Infrastructure\SportActivityTracking.Infrastructure.csproj", "{9A462127-50EC-4CB8-B748-F907CF6502B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportActivityTracking.Application", "SportActivityTracking.Application\SportActivityTracking.Application.csproj", "{9BF1CBC8-0965-4CB9-8E51-4A9955215399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportActivityTracking.Api", "SportActivityTracking.Api\SportActivityTracking.Api.csproj", "{630F0E3C-1F8A-41C0-9F1E-8555E48433E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{5F85309F-8A50-4165-946B-D9BAEA6D3733}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F85309F-8A50-4165-946B-D9BAEA6D3733}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F85309F-8A50-4165-946B-D9BAEA6D3733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C49D3E-9A87-45D8-86F0-BE2FB06C5308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C49D3E-9A87-45D8-86F0-BE2FB06C5308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C49D3E-9A87-45D8-86F0-BE2FB06C5308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C49D3E-9A87-45D8-86F0-BE2FB06C5308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A462127-50EC-4CB8-B748-F907CF6502B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A462127-50EC-4CB8-B748-F907CF6502B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A462127-50EC-4CB8-B748-F907CF6502B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A462127-50EC-4CB8-B748-F907CF6502B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BF1CBC8-0965-4CB9-8E51-4A9955215399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BF1CBC8-0965-4CB9-8E51-4A9955215399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BF1CBC8-0965-4CB9-8E51-4A9955215399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BF1CBC8-0965-4CB9-8E51-4A9955215399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630F0E3C-1F8A-41C0-9F1E-8555E48433E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630F0E3C-1F8A-41C0-9F1E-8555E48433E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630F0E3C-1F8A-41C0-9F1E-8555E48433E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630F0E3C-1F8A-41C0-9F1E-8555E48433E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
