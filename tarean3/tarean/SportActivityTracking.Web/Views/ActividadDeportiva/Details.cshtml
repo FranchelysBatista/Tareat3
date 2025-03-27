@@ -1,20 +1,11 @@
-﻿@model SportActivityTracking.Web.Models.Entidad.ActividadDeportiva
+﻿@using SportActivityTracking.Api.Dtos
+@model SportActivityTracking.Api.Dtos.ActividadesDeportivasDtos
 
-@{
-    ViewData["Title"] = "Detalles de la Actividad Deportiva";
-}
+<h2>Detalles de Actividad</h2>
 
-<h2>Detalles de la Actividad Deportiva</h2>
+<p><strong>Nombre:</strong> @Model.Usuario</p>
+<p><strong>Descripción:</strong> @Model.Descripcion</p>
 
-<div>
-    <h4>@Model.NombreActividad</h4>
-    <dl class="row">
-        <dt class="col-sm-2">Fecha</dt>
-        <dd class="col-sm-10">@Model.Fecha.ToString("dd/MM/yyyy")</dd>
-
-        <dt class="col-sm-2">Duración</dt>
-        <dd class="col-sm-10">@Model.DuracionMinutos minutos</dd>
-    </dl>
-</div>
-
-<a class="btn btn-primary" asp-action="Index">Volver a la Lista</a>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Eliminar</a>

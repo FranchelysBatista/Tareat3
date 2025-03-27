@@ -1,26 +1,18 @@
-﻿@model SportActivityTracking.Web.Models.Entidad.ActividadDeportiva
+﻿@using SportActivityTracking.Api.Dtos
+@using SportActivityTracking.Web.Models.Entidad
+@model SportActivityTracking.Web.Models.Entidad.ActividadDeportiva
 
-@{
-    ViewData["Title"] = "Crear Actividad Deportiva";
-}
-
-<h2>Crear Nueva Actividad Deportiva</h2>
+<h2>Crear Nueva Actividad</h2>
 
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label for="NombreActividad">Nombre de la Actividad</label>
-        <input type="text" class="form-control" id="NombreActividad" name="NombreActividad" required />
+        <label for="Nombre">Nombre</label>
+        <input type="text" class="form-control" asp-for="Nombre" required />
     </div>
-
     <div class="form-group">
-        <label for="Fecha">Fecha</label>
-        <input type="date" class="form-control" id="Fecha" name="Fecha" required />
+        <label for="Descripcion">Descripción</label>
+        <textarea class="form-control" asp-for="Descripcion" required></textarea>
     </div>
-
-    <div class="form-group">
-        <label for="DuracionMinutos">Duración (minutos)</label>
-        <input type="number" class="form-control" id="DuracionMinutos" name="DuracionMinutos" required />
-    </div>
-
-    <button type="submit" class="btn btn-success mt-3">Crear Actividad</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

@@ -1,111 +1,169 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SportActivityTracking.Web.Models.Entidad;
-using SportActivityTracking.Web.Data;
-using System.Linq;
+using Newtonsoft.Json;
+using SportActivityTracking.Api.Dtos;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text;
+using SportActivityTracking.Web.Models;
 
-namespace SportActivityTracking.Web.Controllers
+public class ActividadDeportivaController : Controller
 {
-    public class ActividadDeportivaController : Controller
+    private readonly HttpClient _httpClient;
+
+    public ActividadDeportivaController(IHttpClientFactory httpClientFactory)
     {
-        private readonly ActividadDeportivaDbContext _context;
+        _httpClient = httpClientFactory.CreateClient("ApiClient");
+    }
 
-        public ActividadDeportivaController(ActividadDeportivaDbContext context)
+    public async Task<IActionResult> Index()
+    {
+        try
         {
-            _context = context;
-        }
+            var response = await _httpClient.GetAsync("api/ActividadDeportiva");
 
-        public IActionResult Index()
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<ActividadesDeportivasDtos>>>(result);
+                var actividades = apiResponse?.Data;
+
+                return View(actividades);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Hubo un problema al obtener las actividades.";
+                return View("Error");
+            }
+        }
+        catch (Exception ex)
         {
-            var actividades = _context.ActividadesDeportivas.ToList();
-            return View(actividades);
+            TempData["ErrorMessage"] = $"Ocurrió un error inesperado: {ex.Message}";
+            return View("Error");
         }
+    }
 
-        public IActionResult Create()
+    public async Task<IActionResult> Details(int id)
+    {
+        try
         {
-            return View();
-        }
+            var response = await _httpClient.GetAsync($"api/ActividadDeportiva/{id}");
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(ActividadDeportiva actividad)
+            if (response.IsSuccessStatusCode)
+            {
+                var actividadJson = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ActividadesDeportivasDtos>>(actividadJson);
+
+                if (apiResponse?.Data != null)
+                {
+                    var actividad = apiResponse.Data;
+                    return View(actividad);
+                }
+            }
+
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = $"Ocurrió un error al obtener los detalles: {ex.Message}";
+            return View("Error");
+        }
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(ActividadesDeportivasDtos actividad)
+    {
+        try
         {
             if (ModelState.IsValid)
             {
-                _context.ActividadesDeportivas.Add(actividad);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                var content = new StringContent(JsonConvert.SerializeObject(actividad), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("api/ActividadDeportiva", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["SuccessMessage"] = "Actividad creada exitosamente";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Hubo un problema al crear la actividad.";
+                }
             }
             return View(actividad);
         }
-
-        public IActionResult Edit(int id)
+        catch (Exception ex)
         {
-            var actividad = _context.ActividadesDeportivas.Find(id);
-            if (actividad == null)
-            {
-                return NotFound();
-            }
+            TempData["ErrorMessage"] = $"Ocurrió un error inesperado: {ex.Message}";
             return View(actividad);
         }
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, ActividadDeportiva actividad)
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        try
         {
-            if (id != actividad.Id)
+            var response = await _httpClient.GetAsync($"api/ActividadDeportiva/{id}");
+
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                var actividadJson = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ActividadesDeportivasDtos>>(actividadJson);
+
+                if (apiResponse?.Data != null)
+                {
+                    var actividad = apiResponse.Data;
+                    return View(actividad);
+                }
             }
+
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = $"Ocurrió un error al obtener la actividad: {ex.Message}";
+            return View("Error");
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(ActividadesDeportivasDtos actividad)
+    {
+        try
+        {
+            if (actividad.Id <= 0)
+                return BadRequest();
 
             if (ModelState.IsValid)
             {
-                try
+                var content = new StringContent(JsonConvert.SerializeObject(actividad), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync($"api/ActividadDeportiva/{actividad.Id}", content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    _context.Update(actividad);
-                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Actividad actualizada exitosamente.";
+                    TempData["ActividadId"] = actividad.Id;
+                    return RedirectToAction("Edit", new { id = actividad.Id });
                 }
-                catch
+                else
                 {
-                    return View();
+                    TempData["ErrorMessage"] = "Hubo un problema al actualizar la actividad.";
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(actividad);
+
+            return View("Edit", actividad);
         }
-
-        public IActionResult Delete(int id)
+        catch (Exception ex)
         {
-            var actividad = _context.ActividadesDeportivas.Find(id);
-            if (actividad == null)
-            {
-                return NotFound();
-            }
-            return View(actividad);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var actividad = _context.ActividadesDeportivas.Find(id);
-            if (actividad != null)
-            {
-                _context.ActividadesDeportivas.Remove(actividad);
-                _context.SaveChanges();
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Details(int id)
-        {
-            var actividad = _context.ActividadesDeportivas.FirstOrDefault(a => a.Id == id);
-
-            if (actividad == null)
-            {
-                return NotFound();
-            }
-
-            return View(actividad);
+            TempData["ErrorMessage"] = $"Ocurrió un error inesperado: {ex.Message}";
+            return View("Error");
         }
     }
 }
